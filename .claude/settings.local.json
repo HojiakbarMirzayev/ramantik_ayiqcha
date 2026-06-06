@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s \"https://api.telegram.org/bot8814669551:AAEEAYxlnxahZqj-ijHaowpRzfGjZCFbD1A/getMe\")",
+      "PowerShell($ErrorActionPreference='SilentlyContinue'; \\(Get-Command node\\).Source; node --version; \\(Get-Command python\\).Source; python --version)",
+      "Bash(git --version)",
+      "Bash(gh --version)",
+      "Bash(vercel --version)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git -c user.name=\"Ramantik Ayiqcha\" -c user.email=\"shop@example.com\" commit -q -m \"Romantik ayiqcha sotuv sayti — xavfsiz Telegram integratsiyasi\")",
+      "Bash(git branch *)"
+    ]
+  }
+}
