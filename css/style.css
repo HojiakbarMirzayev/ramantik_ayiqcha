@@ -233,6 +233,53 @@ footer .heart{color:var(--rose)}
 .contact-item:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
 .contact-item svg{width:20px;height:20px;color:var(--rose)}
 
+/* ============== STOCK BADGE (omborda qoldi) ============== */
+.stock-badge{
+  display:flex;align-items:center;gap:10px;
+  background:#fff4e6;color:#c0631b;border:1px solid #f7d9b0;
+  border-radius:14px;padding:12px 16px;margin-bottom:20px;font-weight:700;font-size:.95rem;
+}
+.stock-badge svg{width:22px;height:22px;flex:none;color:#e0801f;animation:flame 1.6s ease-in-out infinite}
+.stock-badge b{color:#a8410f}
+@keyframes flame{0%,100%{transform:scale(1)}50%{transform:scale(1.15) rotate(-3deg)}}
+
+/* ============== PROMO TIMER (order ichida) ============== */
+.promo-box{margin-top:26px}
+.promo-timer{
+  display:inline-flex;align-items:center;gap:13px;
+  background:rgba(255,255,255,.16);backdrop-filter:blur(4px);
+  border:1px solid rgba(255,255,255,.35);border-radius:18px;padding:14px 20px;
+}
+.promo-timer svg{width:34px;height:34px;color:#fff;flex:none}
+.promo-timer .pt-label{display:block;font-size:.85rem;opacity:.9;font-weight:600}
+.promo-timer .pt-time{display:block;font-size:1.7rem;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:1px}
+
+/* ============== STICKY TIMER (pastki panel) ============== */
+.sticky-timer{
+  position:fixed;left:0;right:0;bottom:0;z-index:60;
+  background:linear-gradient(135deg,var(--rose),var(--rose-deep));
+  color:#fff;box-shadow:0 -10px 30px rgba(210,75,98,.35);
+  transform:translateY(120%);transition:transform .45s var(--ease);
+}
+.sticky-timer.show{transform:translateY(0)}
+.st-in{max-width:1150px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 22px}
+.st-left{display:flex;align-items:center;gap:11px;min-width:0}
+.st-left svg{width:26px;height:26px;flex:none;animation:flame 1.6s ease-in-out infinite}
+.st-text{font-weight:700;font-size:.98rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st-text b{font-variant-numeric:tabular-nums;font-size:1.1rem}
+.st-btn{
+  flex:none;background:#fff;color:var(--rose-deep);text-decoration:none;
+  font-weight:800;padding:11px 24px;border-radius:999px;transition:transform .2s var(--ease);
+  box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+.st-btn:hover{transform:translateY(-2px)}
+@media(max-width:560px){
+  .st-text{font-size:.82rem;white-space:normal}
+  .st-text .sep{display:none}
+  .st-btn{padding:10px 16px;font-size:.9rem}
+  .st-in{padding:10px 14px;gap:10px}
+}
+
 /* ============== THANK YOU PAGE ============== */
 .thanks-wrap{min-height:calc(100vh - 70px);display:grid;place-items:center;padding:50px 22px}
 .thanks-card{

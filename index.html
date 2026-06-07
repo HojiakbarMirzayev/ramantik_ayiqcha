@@ -168,10 +168,24 @@
             Operator qo'ng'irog'i orqali tasdiqlash
           </li>
         </ul>
+
+        <div class="promo-box">
+          <div class="promo-timer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6M5 5l1.5 1.5"/></svg>
+            <div>
+              <span class="pt-label">Aksiya tugashiga:</span>
+              <span class="pt-time" id="cd">35:00</span>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="form-card">
         <h3>Ma'lumotlaringizni qoldiring</h3>
         <p class="fc-sub">Biz darhol bog'lanamiz</p>
+        <div class="stock-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5c0-2 1.5-3 1.5-5 2 1 3 3 3 5a3 3 0 0 1-6 0Z"/><path d="M12 2c.5 3-2 4-2 7M14 4c2 2 4 4.5 4 8a6 6 0 0 1-12 0c0-1.5.5-3 1.5-4"/></svg>
+          <span>Shoshiling! Omborda <b>19 dona</b> qoldi</span>
+        </div>
         <form id="orderForm" novalidate>
           <div class="field">
             <label for="name">Ismingiz</label>
@@ -212,6 +226,17 @@
   <p>Ramantik Ayiqcha — sevgi bilan tayyorlangan <span class="heart">&#9829;</span></p>
   <p style="margin-top:6px;font-size:.85rem">&copy; 2026 Barcha huquqlar himoyalangan</p>
 </footer>
+
+<!-- ============ STICKY TIMER (pastki panel) ============ -->
+<div class="sticky-timer" id="stickyTimer">
+  <div class="st-in">
+    <div class="st-left">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6M5 5l1.5 1.5"/></svg>
+      <span class="st-text">Aksiya tugashiga: <b id="cd2">35:00</b> &nbsp;•&nbsp; Omborda 19 dona qoldi</span>
+    </div>
+    <a href="#buyurtma" class="st-btn">Buyurtma berish</a>
+  </div>
+</div>
 
 <script src="js/main.js"></script>
 </body>

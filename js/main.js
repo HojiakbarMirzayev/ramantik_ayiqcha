@@ -74,6 +74,49 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  /* ---------- 6b. Teskari timer (aksiya tugashi) ---------- */
+  const PROMO_KEY = 'promo_deadline';
+  const PROMO_MIN = 35; // daqiqa
+  const cdEls = [document.getElementById('cd'), document.getElementById('cd2')].filter(Boolean);
+  if (cdEls.length){
+    let deadline = parseInt(localStorage.getItem(PROMO_KEY), 10);
+    if (!deadline || deadline < Date.now()){
+      deadline = Date.now() + PROMO_MIN * 60 * 1000;
+      localStorage.setItem(PROMO_KEY, deadline);
+    }
+    const tick = () => {
+      let diff = deadline - Date.now();
+      if (diff <= 0){ // tugasa — qayta boshlaymiz (shoshilinch tuyg'usi saqlanadi)
+        deadline = Date.now() + PROMO_MIN * 60 * 1000;
+        localStorage.setItem(PROMO_KEY, deadline);
+        diff = deadline - Date.now();
+      }
+      const m = Math.floor(diff / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      const txt = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+      cdEls.forEach(el => el.textContent = txt);
+    };
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  /* ---------- 6c. Pastki yopishqoq timer ko'rinishi ---------- */
+  const sticky = document.getElementById('stickyTimer');
+  const orderSec = document.getElementById('buyurtma');
+  const heroSec = document.querySelector('.hero');
+  if (sticky && orderSec && heroSec){
+    const updateSticky = () => {
+      const pastHero = window.scrollY > heroSec.offsetHeight * 0.65;
+      const r = orderSec.getBoundingClientRect();
+      const orderVisible = r.top < window.innerHeight * 0.85 && r.bottom > 0;
+      // Hero'dan o'tgach ko'rsatamiz; forma ekranda turganda yashiramiz (formani to'smasligi uchun)
+      sticky.classList.toggle('show', pastHero && !orderVisible);
+    };
+    updateSticky();
+    window.addEventListener('scroll', updateSticky, { passive:true });
+    window.addEventListener('resize', updateSticky);
+  }
+
   /* ---------- 7. Telefon formatlash ---------- */
   const phone = document.getElementById('phone');
   phone.addEventListener('input', () => {
