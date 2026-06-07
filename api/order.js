@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   // (chat_id maxfiy emas — token bo'lmasa baribir yuborib bo'lmaydi)
   const RECIPIENTS = [
     process.env.TG_CHAT_ID || '5137983794',     // shaxsiy bot chat
-    process.env.TG_GROUP_ID || '-5162543796'    // "Ramantik ayiqcha" guruhi
+    process.env.TG_GROUP_ID || '-1003777967007' // "Ramantik ayiqcha" superguruhi
   ].filter(Boolean);
 
   if (!TOKEN) {
