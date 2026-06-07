@@ -120,8 +120,9 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       const data = await res.json();
       if (data.ok){
-        showMsg('Rahmat, ' + name + '! Buyurtmangiz qabul qilindi. Tez orada bog\'lanamiz.', true);
-        form.reset();
+        // Muvaffaqiyatli — thank you sahifasiga ism bilan o'tkazamiz
+        window.location.href = 'thank-you.html?name=' + encodeURIComponent(name);
+        return;
       } else {
         showMsg('Yuborishda xatolik. Iltimos, qayta urinib ko\'ring.', false);
         console.error('Telegram error:', data);
