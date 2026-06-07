@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error(err);
     } finally {
       btn.disabled = false;
-      btnText.textContent = 'Buyurtmani yuborish';
+      btnText.textContent = 'Buyurtmani olmoqchiman';
     }
   });
 });
