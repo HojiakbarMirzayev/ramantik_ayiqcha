@@ -163,6 +163,8 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       const data = await res.json();
       if (data.ok){
+        // Facebook Pixel — Lead event (buyurtma muvaffaqiyatli yuborildi)
+        if (typeof fbq === 'function') { fbq('track', 'Lead'); }
         // Muvaffaqiyatli — thank you sahifasiga ism bilan o'tkazamiz
         window.location.href = 'thank-you.html?name=' + encodeURIComponent(name);
         return;
