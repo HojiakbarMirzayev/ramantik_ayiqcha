@@ -6,11 +6,17 @@ export default async function handler(req, res) {
     return res.status(405).json({ ok: false, error: 'Method not allowed' });
   }
 
-  const TOKEN   = process.env.TG_TOKEN;
-  const CHAT_ID = process.env.TG_CHAT_ID;
+  const TOKEN = process.env.TG_TOKEN;
 
-  if (!TOKEN || !CHAT_ID) {
-    return res.status(500).json({ ok: false, error: 'Server sozlanmagan (env yo\'q)' });
+  // Lead qaerga tushishi kerak: shaxsiy chat + "Ramantik ayiqcha" guruhi.
+  // (chat_id maxfiy emas — token bo'lmasa baribir yuborib bo'lmaydi)
+  const RECIPIENTS = [
+    process.env.TG_CHAT_ID || '5137983794',     // shaxsiy bot chat
+    process.env.TG_GROUP_ID || '-5162543796'    // "Ramantik ayiqcha" guruhi
+  ].filter(Boolean);
+
+  if (!TOKEN) {
+    return res.status(500).json({ ok: false, error: 'Server sozlanmagan (token yo\'q)' });
   }
 
   // body ni o'qish (Vercel JSON ni avtomatik parse qiladi, lekin himoya uchun tekshiramiz)
@@ -41,17 +47,27 @@ export default async function handler(req, res) {
     '🕒 ' + new Date().toLocaleString('uz-UZ', { timeZone: 'Asia/Tashkent' });
 
   try {
-    const tgRes = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: 'HTML' })
-    });
-    const data = await tgRes.json();
+    // Har bir manzilga (shaxsiy + guruh) yuboramiz
+    const results = await Promise.all(RECIPIENTS.map(async (chatId) => {
+      try {
+        const tgRes = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' })
+        });
+        const data = await tgRes.json();
+        if (!data.ok) console.error('Telegram error (' + chatId + '):', data);
+        return data.ok === true;
+      } catch (e) {
+        console.error('Yuborishda xato (' + chatId + '):', e);
+        return false;
+      }
+    }));
 
-    if (data.ok) {
+    // Kamida bittasi yetib borsa — muvaffaqiyatli deb hisoblaymiz
+    if (results.some(Boolean)) {
       return res.status(200).json({ ok: true });
     }
-    console.error('Telegram error:', data);
     return res.status(502).json({ ok: false, error: 'Telegram xatosi' });
   } catch (err) {
     console.error(err);
