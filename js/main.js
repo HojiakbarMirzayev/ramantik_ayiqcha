@@ -152,6 +152,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (digits.length !== 9){ showMsg('Telefon raqam noto\'g\'ri. +998 dan keyin 9 ta raqam kiriting.', false); phone.focus(); return; }
 
     const fullPhone = '+998' + digits;
+
+    // Diagnostika: lokal fayldan ochilganda /api/order ishlamaydi (faqat serverda)
+    if (location.protocol === 'file:') {
+      showMsg('Bu forma faqat jonli saytda ishlaydi. Iltimos saytni https://ramantik-ayiqcha.vercel.app orqali oching.', false);
+      console.error('[ORDER] Forma lokal fayl (file://) orqali ochilgan. /api/order faqat Vercel serverida mavjud. Jonli sayt orqali sinang.');
+      return;
+    }
+
     btn.disabled = true;
     btnText.textContent = 'Yuborilmoqda...';
 
@@ -161,8 +169,13 @@ document.addEventListener('DOMContentLoaded', () => {
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify({ name, phone: fullPhone })
       });
-      const data = await res.json();
-      if (data.ok){
+
+      // Javobni xavfsiz o'qish (JSON bo'lmasligi ham mumkin)
+      let data = {};
+      const raw = await res.text();
+      try { data = raw ? JSON.parse(raw) : {}; } catch { data = {}; }
+
+      if (res.ok && data.ok){
         // Facebook Pixel — Lead event (buyurtma muvaffaqiyatli yuborildi)
         if (typeof fbq === 'function') { fbq('track', 'Lead'); }
         // Muvaffaqiyatli — thank you sahifasiga ism bilan o'tkazamiz
@@ -170,11 +183,11 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       } else {
         showMsg('Yuborishda xatolik. Iltimos, qayta urinib ko\'ring.', false);
-        console.error('Telegram error:', data);
+        console.error('[ORDER] Server javobi xato. HTTP:', res.status, '| Javob:', raw);
       }
     } catch(err){
       showMsg('Internet aloqasida muammo. Iltimos, qayta urinib ko\'ring.', false);
-      console.error(err);
+      console.error('[ORDER] fetch() amalga oshmadi (tarmoq xatosi yoki endpoint topilmadi):', err);
     } finally {
       btn.disabled = false;
       btnText.textContent = 'Buyurtmani olmoqchiman';
